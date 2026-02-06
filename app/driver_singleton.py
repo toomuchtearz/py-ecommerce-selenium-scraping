@@ -8,7 +8,7 @@ class WebDriverSingleton:
     _instance = None
     _driver = None
 
-    def __new__(cls, browser: str = "chrome") -> "WebDriver":
+    def __new__(cls, browser: str = "chrome") -> "WebDriverSingleton":
         if cls._instance is None:
             cls._instance = super(WebDriverSingleton, cls).__new__(cls)
             cls._instance._initialize_driver(browser)

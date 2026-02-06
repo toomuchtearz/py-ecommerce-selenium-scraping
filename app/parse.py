@@ -85,7 +85,7 @@ def get_products_soup(url: str) -> list:
     )
 
 
-def parce_all_products_from_specific_url(url: str) -> list:
+def parse_all_products_from_specific_url(url: str) -> list:
     """Gets card-bodies and returns list of Product instances"""
     products_from_specific_url = []
     products_soup = get_products_soup(url=url)
@@ -104,7 +104,7 @@ def write_products_to_csv(file_name: str, products: list[Product]) -> None:
 
 def get_all_products() -> None:
     for file_name, url in URLS_TO_PARSE.items():
-        products = parce_all_products_from_specific_url(url=url)
+        products = parse_all_products_from_specific_url(url=url)
         write_products_to_csv(file_name, products)
 
 
