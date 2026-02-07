@@ -61,22 +61,41 @@ def parse_single_product(product: Tag) -> Product:
     )
 
 
+def has_cookies_button(driver: WebDriverSingleton) -> bool:
+    try:
+        driver.find_element(By.CLASS_NAME, "acceptCookies")
+    except NoSuchElementException:
+        return False
+
+    return True
+
+
+def has_next_button(driver: WebDriverSingleton) -> bool:
+    try:
+        driver.find_element(By.CLASS_NAME, "acceptCookies")
+    except NoSuchElementException:
+        return False
+    return True
+
+
 def get_products_soup(url: str) -> list:
     """Returns card bodies for all products on the specific page"""
     driver = WebDriverSingleton().get_driver()
     driver.get(url=url)
     try:
+        cookies_button = driver.find_element(By.CLASS_NAME, "acceptCookies")
+        if cookies_button.is_displayed():
+            driver.execute_script("arguments[0].click();", cookies_button)
+    except NoSuchElementException:
+        pass
+
+    try:
         next_button = driver.find_element(
             By.CLASS_NAME,
             "ecomerce-items-scroll-more"
         )
-        cookies_button = driver.find_element(By.CLASS_NAME, "acceptCookies")
-        if cookies_button.is_displayed():
-            driver.execute_script("arguments[0].click();", cookies_button)
-
         while next_button.is_displayed():
             driver.execute_script("arguments[0].click();", next_button)
-
     except NoSuchElementException:
         pass
 
